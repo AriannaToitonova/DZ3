@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class TodoList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tasks: [],
+      newTask: '',
+    };
+  }
+
+  handleInputChange = (event) => {
+    this.setState({ newTask: event.target.value });
+  }
+
+  handleAddTask = () => {
+    const { tasks, newTask } = this.state;
+    if (newTask.trim() !== '') {
+      const updatedTasks = [...tasks, newTask];
+      this.setState({ tasks: updatedTasks, newTask: '' });
+    }
+  }
+
+  render() {
+    const { tasks, newTask } = this.state;
+
+    return (
+        <div>
+          <h1>Список задач</h1>
+          <ul>
+            {tasks.map((task, index) => <li key={index}>{task}</li>)}
+          </ul>
+          <input
+              type="text"
+              value={newTask}
+              onChange={this.handleInputChange}
+              placeholder="Введите список задач"
+          />
+          <button onClick={this.handleAddTask}>Добавить</button>
+        </div>
+    );
+  }
 }
 
-export default App;
+export default TodoList;
